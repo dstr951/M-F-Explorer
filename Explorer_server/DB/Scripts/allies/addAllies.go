@@ -14,7 +14,7 @@ import (
 func AddAlly(ctx context.Context, allies entities.AlliesList) error {
 	alliesCollection := Collections.AlliesGetCollection()
 	for _, ally := range allies.Allies {
-		var a entities.City
+		var a entities.Ally
 		if err := alliesCollection.FindOne(ctx, bson.M{"ally_id": ally.AllyId}).Decode(&a); err != nil {
 			if err == mongo.ErrNoDocuments {
 				_, err := alliesCollection.InsertOne(ctx, ally)
