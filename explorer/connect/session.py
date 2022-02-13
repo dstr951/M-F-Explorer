@@ -553,3 +553,12 @@ class Session:
         fh = open(self.logfile, 'a')
         fh.write(entry)
         fh.close()
+    def __token(self):
+        """Generates a valid actionRequest token from the session
+        Returns
+        -------
+        token : str
+            a string representing a valid actionRequest token
+        """
+        html = self.get()
+        return re.search(r'actionRequest"?:\s*"(.*?)"', html).group(1)
