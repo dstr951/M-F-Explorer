@@ -120,15 +120,13 @@ def re_cities_players_allies(island_raw):
         cityName = city["name"]
         cityId = city["id"]
         level = city["level"]
-        playerId = city["Id"]  
-        state = city["state"]
+        playerId = city["Id"] 
         city_json={
             "cityId": cityId,
             "islandId": island_id,
             "cityName": cityName,            
             "level": level,
-            "playerId": playerId,            
-            "state": state,
+            "playerId": playerId,  
         }        
         cities_json.append(city_json)
 
@@ -136,6 +134,7 @@ def re_cities_players_allies(island_raw):
         avatars = island_raw["avatarScores"]
         playerName = city["Name"]
         allyId = city["AllyId"] 
+        state = city["state"]
         if playerId in avatars:
             place = avatars[playerId]["place"]
             buildingScore = avatars[playerId]["building_score_main"]
@@ -153,6 +152,7 @@ def re_cities_players_allies(island_raw):
             "playerName": playerName,
             "allyId": allyId,
             "place": place,
+            "state": state,
             "buildingScore": buildingScore,
             "researchScore": researchScore,
             "armyScore": armyScore,
