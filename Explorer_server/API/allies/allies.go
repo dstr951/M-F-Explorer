@@ -6,4 +6,5 @@ import (
 
 func AlliesController(e *echo.Echo) {
 	e.POST("/allies", postAllies)
+	e.GET("/ally", getAlly)
 }
