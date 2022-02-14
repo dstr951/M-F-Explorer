@@ -5,3 +5,4 @@ ikabot/*
 */.env
 */*/.env
 explorer/island_files/*
+*.xlsx

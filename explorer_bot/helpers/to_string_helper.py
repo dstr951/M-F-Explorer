@@ -11,9 +11,12 @@ def resource_to_string(resource_id):
 
 def player_to_string(playerJSON):
     name = playerJSON['playerName']
-    #add ally
+    allyId = playerJSON['allyId']
     place = playerJSON['place']
-    return f"סיכום לשחקן, {name} מיקום: {place}"
+    buildingScore = "".join(playerJSON['buildingScore'].split(","))[:-2]
+    researchScore = "".join(playerJSON['researchScore'].split(","))[:-2]
+    armyScore = "".join(playerJSON['armyScore'].split(","))[:-2]
+    return f"סיכום לשחקן, {name} מיקום בטבלה: {place} ברית: {allyId}\n בנאים: {buildingScore}, גנרלים: {armyScore} מחקרים: {researchScore}"
 
 def city_to_string(cityJSON):
     name = cityJSON['cityName']
@@ -27,4 +30,4 @@ def city_to_string(cityJSON):
     wonder = cityJSON['island'][0]['wonderName']
     wonder_level = cityJSON['island'][0]['wonderLevel']
 
-    return f"שם העיר: {name}, [{x},{y}] רמה {level}, סוג משאב {resource_to_string(int(tradegood))}, פלא: {wonder} ברמה {wonder_level}"
+    return f"{name} [{x}:{y}]\nעיר רמה {level}, סוג משאב {resource_to_string(int(tradegood))}\n פלא: {wonder} ברמה {wonder_level}\n"

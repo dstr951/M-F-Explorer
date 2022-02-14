@@ -38,9 +38,11 @@ async def getPlayerByName(ctx, name):
                 await ctx.send(f"playerId: {playerId} error: {err}")
         else:            
             cities_list = cities.json()["cities"]
-            await ctx.send(f"number of cities:{len(cities_list)}")
+            await ctx.send(f"מספר ערים:{len(cities_list)}")
+            cities_str=""
             for city in cities_list:
-                await ctx.send(city_to_string(city))
+                cities_str += city_to_string(city)
+            await ctx.send(cities_str)
             
         
 
