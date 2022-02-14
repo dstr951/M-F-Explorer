@@ -15,7 +15,7 @@ bot = commands.Bot(command_prefix='~')
 @bot.command(name='playerName')
 async def getPlayerByName(ctx, name): 
     print(f"user asked for command playerName with the paramter name={name}")
-    url= f"http://localhost:9000/players?name={name}"
+    url= f"http://localhost:9000/player?name={name}"
     try:
         player = requests.get(url)
         player.raise_for_status()
@@ -30,7 +30,7 @@ async def getPlayerByName(ctx, name):
 @bot.command(name='playerId')
 async def getPlayerByName(ctx, id): 
     print(f"user asked for command playerId with the paramter id={id}")
-    url= f"http://localhost:9000/players?id={id}"       
+    url= f"http://localhost:9000/player?id={id}"       
     try:
         player = requests.get(url) 
         player.raise_for_status()
