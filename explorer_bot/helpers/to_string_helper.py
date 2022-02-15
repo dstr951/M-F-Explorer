@@ -9,14 +9,16 @@ def resource_to_string(resource_id):
         return "גופרית"
     return "שגיאה בהמרת המשאב"
 
-def player_to_string(playerJSON, allyJSON):
-    name = playerJSON['playerName']
-    allyName = allyJSON['allyName']
+def player_to_string(playerJSON, allyName):
+    name = playerJSON['playerName']    
     place = playerJSON['place']
     buildingScore = "".join(playerJSON['buildingScore'].split(","))[:-2]
     researchScore = "".join(playerJSON['researchScore'].split(","))[:-2]
     armyScore = "".join(playerJSON['armyScore'].split(","))[:-2]
-    return f"סיכום לשחקן: {name} מיקום בטבלה: {place} ברית: {allyName}\n בנאים: {buildingScore}, גנרלים: {armyScore} מחקרים: {researchScore}"
+    allyString ="ללא ברית"
+    if allyName != "":
+        allyString = f"ברית: {allyName}"
+    return f"סיכום לשחקן: {name} מיקום בטבלה: {place} {allyString}\n בנאים: {buildingScore}, גנרלים: {armyScore} מחקרים: {researchScore}"
 
 def city_to_string(cityJSON):
     name = cityJSON['cityName']
