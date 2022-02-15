@@ -16,9 +16,7 @@ jobs:
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USERNAME}}
           
-          script: |
-            mkdir m-f            
-            cd m-f
+          script: |            
             git clone git@github.com:dstr951/M-F-Explorer.git
-            echo 'Deployment successful to digital ocean'
+            echo 'Deployment successful'
             
