@@ -21,7 +21,9 @@ jobs:
             git clone git@github.com:dstr951/M-F-Explorer.git
             echo 'Deployment successful'
             pkill -f go-build
+            echo 'build deleted'
             pkill -f main.go
+            echo 'execution deleted'
             cd M-F-Explorer/Explorer_server
             nohup go run main.go &
             cd ../../
