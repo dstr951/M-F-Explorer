@@ -23,10 +23,10 @@ jobs:
             mv tmp-env/Explorer_server/.env M-F-Explorer/Explorer_server
             echo 'Deployment successful'
             ps aux | grep go-build
-            pkill -f go-build
+            pkill $(pgrep -f go-build | grep -v ^$$\$)
             echo 'build deleted'
             ps aux | grep main.go
-            pkill -f main.go
+            pkill $(pgrep -f main.go | grep -v ^$$\$)
             echo 'execution deleted'
             cd M-F-Explorer/Explorer_server
             nohup go run main.go &
