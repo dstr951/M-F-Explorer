@@ -17,8 +17,10 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           
           script: |  
-            rm -r M-F-Explorer          
+            mv M-F-Explorer/Explorer_server/.env tmp-env/Explorer_server
+            rm -r M-F-Explorer                   
             git clone git@github.com:dstr951/M-F-Explorer.git
+            mv tmp-env/Explorer_server/.env M-F-Explorer/Explorer_server
             echo 'Deployment successful'
             pkill -f go-build
             echo 'build deleted'
