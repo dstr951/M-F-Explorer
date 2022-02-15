@@ -19,7 +19,7 @@ def start():
     session = Session()
     
     
-    for i in range(1, max_island):        
+    for i in range(1, max_island + 1):        
         url = str(island_url + str(i))               
         html_data = session.get(url)                       
         target_file = open(f"{ISLAND_FILES_PATH}/island_{i}.txt", 'w', encoding="utf-8")
