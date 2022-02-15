@@ -22,8 +22,10 @@ jobs:
             git clone git@github.com:dstr951/M-F-Explorer.git
             mv tmp-env/Explorer_server/.env M-F-Explorer/Explorer_server
             echo 'Deployment successful'
+            ps aux | grep go-build
             pkill -f go-build
             echo 'build deleted'
+            ps aux | grep main.go
             pkill -f main.go
             echo 'execution deleted'
             cd M-F-Explorer/Explorer_server
