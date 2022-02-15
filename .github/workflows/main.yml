@@ -1,0 +1,24 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy project
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+          
+          script: |
+            mkdir m-f            
+            cd m-f
+            git clone git@github.com:dstr951/M-F-Explorer.git
+            echo 'Deployment successful to digital ocean'
+            
