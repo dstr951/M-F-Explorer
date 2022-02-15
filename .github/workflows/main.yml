@@ -27,7 +27,7 @@ jobs:
             kill $GO_PID $BUILD_GO_PID
             echo 'Killed previous server processes'            
             cd M-F-Explorer/Explorer_server
-            nohup go run main.go >/dev/null &
+            nohup go run main.go </dev/null &>/dev/null &
             cd ../../
             exit
             
