@@ -12,23 +12,33 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='~')
 
-@bot.command(name='playerName')
+@bot.command(name='player')
 async def getPlayerByName(ctx, name): 
     print(f"user asked for command playerName with the paramter name={name}")
     url= f"http://localhost:9000/player?name={name}"
     try:
         player = requests.get(url)
-        player.raise_for_status()
+        player.raise_for_status()        
     except requests.HTTPError as err:
         if err.response.status_code == 404:
             await ctx.send(f"user {name} wasn't found")
         else:
             await ctx.send(f"name: {name} error: {err}")
     else:
-        await ctx.send(player_to_string(player.json()))
-        print_cities_summary(ctx, player)           
+        try:
+            allyId = player.json()['allyId']
+            ally = requests.get(f"http://localhost:9000/ally?id={allyId}")
+            ally.raise_for_status()
+        except requests.HTTPError as err:
+            if err.response.status_code == 404:
+                await ctx.send(f"ally {allyId} wasn't found")
+            else:
+                await ctx.send(f"id: {allyId} error: {err}")    
+        else:
+            await ctx.send(player_to_string(player.json(), ally.json()))
+            await print_cities_summary(ctx, player)           
 @bot.command(name='playerId')
-async def getPlayerByName(ctx, id): 
+async def getPlayerById(ctx, id): 
     print(f"user asked for command playerId with the paramter id={id}")
     url= f"http://localhost:9000/player?id={id}"       
     try:
@@ -40,8 +50,18 @@ async def getPlayerByName(ctx, id):
         else:
             await ctx.send(f"id: {id} error: {err}")
     else:
-        await ctx.send(player_to_string(player.json()))
-        print_cities_summary(ctx, player)
+        try:
+            allyId = player.json()['allyId']
+            ally = requests.get(f"http://localhost:9000/ally?id={allyId}")
+            ally.raise_for_status()
+        except requests.HTTPError as err:
+            if err.response.status_code == 404:
+                await ctx.send(f"ally {allyId} wasn't found")
+            else:
+                await ctx.send(f"id: {allyId} error: {err}")    
+        else:
+            await ctx.send(player_to_string(player.json(), ally.json()))
+            await print_cities_summary(ctx, player)           
 
 async def print_cities_summary(ctx, player):
     playerId = player.json()['playerId']
@@ -60,6 +80,7 @@ async def print_cities_summary(ctx, player):
         cities_str=""
         for city in cities_list:
             cities_str += city_to_string(city)
+            cities_str += "------------\n"
         await ctx.send(cities_str)
 
 bot.run(TOKEN)
