@@ -32,4 +32,4 @@ def city_to_string(cityJSON):
     wonder = cityJSON['island'][0]['wonderName']
     wonder_level = cityJSON['island'][0]['wonderLevel']
 
-    return f"{name} | [{x}:{y}]\nעיר רמה {level} | סוג משאב {resource_to_string(int(tradegood))} | פלא: {wonder} ברמה {wonder_level}\n"
+    return f"{name} | [{x}:{y}]\nעיר רמה {level} | משאב: {resource_to_string(int(tradegood))} | פלא: {wonder} ברמה {wonder_level}\n"
