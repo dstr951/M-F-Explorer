@@ -14,7 +14,8 @@ bot = commands.Bot(command_prefix='~')
 
 @bot.command(name='player')
 async def getPlayerByName(ctx, name): 
-    print(f"user asked for command playerName with the paramter name={name}")
+    print(f"user asked for command playerName with the paramter name={name} I will ask for name={name.lower()}")
+    name = name.lower()
     url= f"http://localhost:9000/player?name={name}"
     try:
         player = requests.get(url)
@@ -85,8 +86,8 @@ async def print_cities_summary(ctx, player):
         await ctx.send(f"מספר ערים:{len(cities_list)}")
         cities_str=""
         for city in cities_list:
-            cities_str += city_to_string(city)
             cities_str += "------------\n"
+            cities_str += city_to_string(city)            
         await ctx.send(cities_str)
 
 bot.run(TOKEN)
