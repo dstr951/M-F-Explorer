@@ -18,9 +18,15 @@ jobs:
           
           script: |  
             mv M-F-Explorer/Explorer_server/.env tmp-env/Explorer_server
+            mv M-F-Explorer/explorer_bot/.env tmp-env/explorer_bot
+            mv M-F-Explorer/explorer/.env tmp-env/explorer
+            mv M-F-Explorer/explorer/userAuth_bot/.env tmp-env/explorer/userAuth_bot
             rm -r M-F-Explorer                   
             git clone git@github.com:dstr951/M-F-Explorer.git
             mv tmp-env/Explorer_server/.env M-F-Explorer/Explorer_server
+            mv tmp-env/explorer_bot/.env M-F-Explorer/explorer_bot
+            mv tmp-env/explorer/.env M-F-Explorer/explorer
+            mv tmp-env/explorer/userAuth_bot/.env M-F-Explorer/explorer/userAuth_bot
             echo 'Deployment successful'
             GO_PID=$(ps aux | grep main.go | awk '{print $2}' | head -1)
             BUILD_GO_PID=$(ps aux | grep go-build | awk '{print $2}' | head -1)            
