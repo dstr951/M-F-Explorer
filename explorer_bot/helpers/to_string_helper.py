@@ -18,7 +18,7 @@ def player_to_string(playerJSON, allyName):
     allyString ="ללא ברית"
     if allyName != "":
         allyString = f"ברית: {allyName}"
-    return f"סיכום לשחקן: {name} מיקום בטבלה: {place} {allyString}\n בנאים: {buildingScore}, גנרלים: {armyScore} מחקרים: {researchScore}"
+    return f"סיכום לשחקן: {name} | מיקום בטבלה: {place} | {allyString}\n בנאים: {buildingScore} | גנרלים: {armyScore} | מחקרים: {researchScore}"
 
 def city_to_string(cityJSON):
     name = cityJSON['cityName']
@@ -32,4 +32,4 @@ def city_to_string(cityJSON):
     wonder = cityJSON['island'][0]['wonderName']
     wonder_level = cityJSON['island'][0]['wonderLevel']
 
-    return f"{name} [{x}:{y}]\nעיר רמה {level}, סוג משאב {resource_to_string(int(tradegood))}\n פלא: {wonder} ברמה {wonder_level}\n"
+    return f"{name} | [{x}:{y}]\nעיר רמה {level} | סוג משאב {resource_to_string(int(tradegood))} | פלא: {wonder} ברמה {wonder_level}\n"
