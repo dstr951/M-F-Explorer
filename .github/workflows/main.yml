@@ -29,6 +29,7 @@ jobs:
             cd M-F-Explorer/Explorer_server
             nohup go run main.go &
             cd ../../
+            exit
             
 
             
