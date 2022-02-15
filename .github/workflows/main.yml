@@ -22,12 +22,10 @@ jobs:
             git clone git@github.com:dstr951/M-F-Explorer.git
             mv tmp-env/Explorer_server/.env M-F-Explorer/Explorer_server
             echo 'Deployment successful'
-            ps aux | grep go-build
-            pkill $(pgrep -f go-build | grep -v ^$$\$)
-            echo 'build deleted'
-            ps aux | grep main.go
-            pkill $(pgrep -f main.go | grep -v ^$$\$)
-            echo 'execution deleted'
+            GO_PID=$(ps aux | grep main.go | awk '{print $2}' | head -1)
+            BUILD_GO_PID=$(ps aux | grep go-build | awk '{print $2}' | head -1)            
+            kill $GO_PID $BUILD_GO_PID
+            echo 'Killed previous server processes'            
             cd M-F-Explorer/Explorer_server
             nohup go run main.go &
             cd ../../
