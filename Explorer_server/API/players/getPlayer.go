@@ -26,7 +26,7 @@ func getPlayer(c echo.Context) error {
 	}
 	playerName := c.QueryParam("name")
 	var player entities.Player
-	if err := playersCollection.FindOne(ctx, bson.M{"player_name": bson.M{"$regex": playerName, "$options": "i"}}).Decode(&player); err != nil {
+	if err := playersCollection.FindOne(ctx, bson.M{"player_name": bson.M{"$regex": "^" + playerName + "$", "$options": "i"}}).Decode(&player); err != nil {
 		return c.String(http.StatusNotFound, err.Error())
 	}
 	return c.JSON(http.StatusOK, player)
