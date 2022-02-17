@@ -18,7 +18,7 @@ def player_to_string(playerJSON, allyName):
     allyString ="ללא ברית"
     if allyName != "":
         allyString = f"ברית: {allyName}"
-    return f"סיכום לשחקן: {name} | מיקום בטבלה: {place} | {allyString}\n בנאים: {buildingScore} | גנרלים: {armyScore} | מחקרים: {researchScore}"
+    return f"שחקן: {name} | מיקום בטבלה: {place} | {allyString}\n בנאים: {buildingScore} | גנרלים: {armyScore} | מחקרים: {researchScore}"
 
 def city_to_string(cityJSON):
     name = cityJSON['cityName']

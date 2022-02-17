@@ -83,7 +83,7 @@ async def print_cities_summary(ctx, player):
             await ctx.send(f"playerId: {playerId} error: {err}")
     else:            
         cities_list = cities.json()["cities"]
-        await ctx.send(f"מספר ערים:{len(cities_list)}")
+        await ctx.send(f"מספר ערים: {len(cities_list)}")
         cities_str=""
         for city in cities_list:
             cities_str += "------------\n"
