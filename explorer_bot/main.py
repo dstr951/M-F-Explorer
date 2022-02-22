@@ -4,7 +4,10 @@ import os
 import requests
 from dotenv import load_dotenv
 from discord.ext import commands
+from discord import Embed
 from helpers.to_string_helper import player_to_string, city_to_string
+from helpers.parsers import playersParser
+from argsparser import UserError
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -68,7 +71,49 @@ async def getPlayerById(ctx, id):
                     await ctx.send(f"id: {allyId} error: {err}")    
             
         await ctx.send(player_to_string(player.json(), allyName))
-        await print_cities_summary(ctx, player)           
+        await print_cities_summary(ctx, player)  
+
+@bot.command(name="players")
+async def filterPlayers(ctx, *args):
+    print(f"user asked for command players with the paramters {' '.join(*args)}")
+    try:
+        (opts, _) = playersParser.parse(*args)
+    except UserError as err:
+        ctx.send(f"players: {err.message}")
+        # TODO: Send help embed.
+        return
+    if not opts: # If the dictionary is empty.
+        ctx.send("players: Please specify arguments to choose players by.")
+        # TODO: Send help embed.
+        return
+    params = ""
+    ally = None
+
+    if "ally" in opts:
+        ally = opts["ally"][0].lower()
+        params += f"ally={ally}"
+    
+    url = f"http://localhost:9000/players?{params}"
+    try:
+        players = requests.get(url)
+        players.raise_for_status()
+    except requests.HTTPError as err:
+        ctx.send(f"players: {err}")
+        return
+    # TODO: Get the canonical ally name with the correct case.
+
+    embed = Embed(title=ally)
+    fields = 0
+    for player in players.json()["players"]:
+        desc = player_to_string(player, ally)
+        embed.add_field(player["playerName"], desc, False)
+        fileds += 1
+        if fileds == 25: # Embed is full
+            await ctx.send(embed=embed)
+            embed = Embed(title=ally)
+            fileds = 0
+    if fields > 0:
+        ctx.send(embed=embed)
 
 async def print_cities_summary(ctx, player):
     playerId = player.json()['playerId']
