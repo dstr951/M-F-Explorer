@@ -91,14 +91,17 @@ async def filterPlayers(ctx, *args):
 
     if "ally" in opts:
         ally = opts["ally"][0].lower()
-        params += f"ally={ally}"
+        params += f"allyName={ally}"
     
     url = f"http://localhost:9000/players?{params}"
     try:
         players = requests.get(url)
         players.raise_for_status()
     except requests.HTTPError as err:
-        ctx.send(f"players: {err}")
+        if err.response.status_code == 404:
+            ctx.send(f"players: Alliance `{ally}` wasn't found")
+        else:
+          ctx.send(f"players: {err}")
         return
     # TODO: Get the canonical ally name with the correct case.
 
