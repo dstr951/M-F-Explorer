@@ -24,7 +24,7 @@ def start():
         resultValid = False
         while not resultValid:            
             html_data = session.get(url)              
-            if html_data.find("error") == -1:                
+            if html_data.find("gf_vhost_not_found") == -1:                
                 resultValid = True
 
         target_file = open(f"{ISLAND_FILES_PATH}/island_{i}.txt", 'w', encoding="utf-8")
