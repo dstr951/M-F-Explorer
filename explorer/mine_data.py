@@ -20,12 +20,17 @@ def start():
     
     
     for i in range(1, max_island + 1):        
-        url = str(island_url + str(i))               
-        html_data = session.get(url)                       
+        url = str(island_url + str(i))   
+        resultValid = False
+        while not resultValid:            
+            html_data = session.get(url)  
+            if not html_data.find("error"):
+                resultValid = True
+
         target_file = open(f"{ISLAND_FILES_PATH}/island_{i}.txt", 'w', encoding="utf-8")
         target_file.write(html_data)
         target_file.close()
-        time.sleep(randint(5,15))    
+        time.sleep(randint(5,15))   
     
 
 print(f"start in main, time is: {datetime.datetime.now()}")
