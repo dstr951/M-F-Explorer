@@ -23,8 +23,8 @@ def start():
         url = str(island_url + str(i))   
         resultValid = False
         while not resultValid:            
-            html_data = session.get(url)  
-            if not html_data.find("error"):
+            html_data = session.get(url)              
+            if html_data.find("error") == -1:                
                 resultValid = True
 
         target_file = open(f"{ISLAND_FILES_PATH}/island_{i}.txt", 'w', encoding="utf-8")
