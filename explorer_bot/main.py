@@ -75,7 +75,7 @@ async def getPlayerById(ctx, id):
 
 @bot.command(name="players")
 async def filterPlayers(ctx, *args):
-    print(f"user asked for command players with the paramters {' '.join(*args)}")
+    print(f"user asked for command players with the paramters {' '.join(args)}")
     try:
         (opts, _) = playersParser.parse(*args)
     except UserError as err:
@@ -103,11 +103,12 @@ async def filterPlayers(ctx, *args):
         else:
             await ctx.send(f"players: {err}")
         return
-
+    
     embed = Embed(title=ally)
     fields = 0
     for player in players.json()["players"]:
         desc = player_to_string(player, ally)
+        embed.add_field(name=player["playerName"], value=desc, inline=False)
         fields += 1
         if fields == 25: # Embed is full
             await ctx.send(embed=embed)
