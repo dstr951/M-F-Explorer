@@ -1,15 +1,13 @@
-
-
 import os
+import math
 import requests
+from discord import Embed
 from dotenv import load_dotenv
 from discord.ext import commands
-from discord import Embed
-from operator import itemgetter, attrgetter
 from helpers.to_string_helper import player_to_string, city_to_string
 
-from helpers.parsers import playersParser
 from argsparser import UserError
+from helpers.parsers import playersParser
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
