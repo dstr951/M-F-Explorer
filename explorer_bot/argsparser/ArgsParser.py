@@ -89,7 +89,7 @@ class ArgsParser:
     optArgs = opts[opt.long] if opt.long in opts else []
 
     if opt.valuesRequired == ArgValsEnum.ONE:
-      if i >= len(args) or args[i].startswith("-"):
+      if i >= len(args):
         raise UserError.argsRequired(opt.long)
       if len(optArgs) >= 1:
         raise UserError(f"Option `--{opt.long}` only requires ONE argument.")
