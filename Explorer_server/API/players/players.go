@@ -6,5 +6,6 @@ import (
 
 func PlayersController(e *echo.Echo) {
 	e.POST("/players", postPlayers)
+	e.GET("/players", getPlayers)
 	e.GET("/player", getPlayer)
 }
