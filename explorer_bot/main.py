@@ -79,11 +79,11 @@ async def filterPlayers(ctx, *args):
     try:
         (opts, _) = playersParser.parse(*args)
     except UserError as err:
-        ctx.send(f"players: {err.message}")
+        await ctx.send(f"players: {err.message}")
         # TODO: Send help embed.
         return
     if not opts: # If the dictionary is empty.
-        ctx.send("players: Please specify arguments to choose players by.")
+        await ctx.send("players: Please specify arguments to choose players by.")
         # TODO: Send help embed.
         return
     params = ""
@@ -99,9 +99,9 @@ async def filterPlayers(ctx, *args):
         players.raise_for_status()
     except requests.HTTPError as err:
         if err.response.status_code == 404:
-            ctx.send(f"players: Alliance `{ally}` wasn't found")
+            await ctx.send(f"players: Alliance `{ally}` wasn't found")
         else:
-          ctx.send(f"players: {err}")
+            await ctx.send(f"players: {err}")
         return
     # TODO: Get the canonical ally name with the correct case.
 
@@ -116,7 +116,7 @@ async def filterPlayers(ctx, *args):
             embed = Embed(title=ally)
             fileds = 0
     if fields > 0:
-        ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
 async def print_cities_summary(ctx, player):
     playerId = player.json()['playerId']
