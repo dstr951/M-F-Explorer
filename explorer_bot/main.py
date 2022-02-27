@@ -107,19 +107,20 @@ async def filterPlayers(ctx, *args):
     sortedPlayers = players.json()["players"]
     #default sort
     sortedPlayers.sort(key = lambda player: int(player["place"]))
-    
+
     embed = Embed(title=ally)
     part = 1
+    total = int(math.ceil(len(sortedPlayers) / 25))
     fields = 0
     for player in sortedPlayers:
         desc = player_to_string(player, ally)
         embed.add_field(name=player["playerName"], value=desc, inline=False)
         fields += 1
         if fields == 25: # Embed is full
-            embed.title = f"{ally} part {part}"
+            embed.title = f"{ally} {part}\\{total}"
             await ctx.send(embed=embed)
             part += 1
-            embed = Embed(title=f"{ally} part {part}")
+            embed = Embed(title=f"{ally}  {part}\\{total}")
             fields = 0
     if fields > 0:
         await ctx.send(embed=embed)
