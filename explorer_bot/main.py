@@ -109,12 +109,11 @@ async def filterPlayers(ctx, *args):
     fields = 0
     for player in players.json()["players"]:
         desc = player_to_string(player, ally)
-        embed.add_field(player["playerName"], desc, False)
-        fileds += 1
-        if fileds == 25: # Embed is full
+        fields += 1
+        if fields == 25: # Embed is full
             await ctx.send(embed=embed)
             embed = Embed(title=ally)
-            fileds = 0
+            fields = 0
     if fields > 0:
         await ctx.send(embed=embed)
 
