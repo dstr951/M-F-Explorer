@@ -90,7 +90,7 @@ async def filterPlayers(ctx, *args):
     ally = None
 
     if "ally" in opts:
-        ally = opts["ally"][0].lower()
+        ally = opts["ally"][0]
         params += f"allyName={ally}"
     
     url = f"http://localhost:9000/players?{params}"
@@ -103,7 +103,6 @@ async def filterPlayers(ctx, *args):
         else:
             await ctx.send(f"players: {err}")
         return
-    # TODO: Get the canonical ally name with the correct case.
 
     embed = Embed(title=ally)
     fields = 0
