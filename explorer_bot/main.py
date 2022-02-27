@@ -5,7 +5,9 @@ import requests
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord import Embed
+from operator import itemgetter, attrgetter
 from helpers.to_string_helper import player_to_string, city_to_string
+
 from helpers.parsers import playersParser
 from argsparser import UserError
 
@@ -104,10 +106,14 @@ async def filterPlayers(ctx, *args):
             await ctx.send(f"players: {err}")
         return
     
+    sortedPlayers = players.json()["players"]
+    #default sort
+    sortedPlayers.sort(key = lambda player: int(player["place"]))
+    
     embed = Embed(title=ally)
     part = 1
     fields = 0
-    for player in players.json()["players"]:
+    for player in sortedPlayers:
         desc = player_to_string(player, ally)
         embed.add_field(name=player["playerName"], value=desc, inline=False)
         fields += 1
