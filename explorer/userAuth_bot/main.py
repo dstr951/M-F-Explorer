@@ -2,7 +2,7 @@
 
 import os
 import discord
-
+from io import BytesIO
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -33,7 +33,7 @@ def sendToBot(response_required, text, photos= None):
         await channel.send("Im here")        
         if photos != None:
             for photo in photos:
-                await channel.send(file=discord.File(photo))
+                await channel.send(file=BytesIO(discord.File(photo)))
         await channel.send(response) 
         if not response_required:
             bot.dispatch("logout")   
