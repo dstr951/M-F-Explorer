@@ -13,7 +13,7 @@ CHANNEL_ID = os.getenv('CHANNEL_ID')
 
 bot = commands.Bot(command_prefix='!')
 channel = None
-def sendToBot(response_required, text, Photo= None):    
+def sendToBot(response_required, text, photos= None):    
     captcha_user = [-1]
     @bot.event
     async def on_ready():
@@ -30,8 +30,9 @@ def sendToBot(response_required, text, Photo= None):
     @bot.event
     async def on_sendToBot(msg, channel):        
         response = msg
-        if Photo != None:
-            await channel.send(file=discord.File(Photo))
+        if photos != None:
+            for photo in photos:
+                await channel.send(file=discord.File(photo))
         await channel.send(response) 
         if not response_required:
             bot.dispatch("logout")   
