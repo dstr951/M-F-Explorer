@@ -30,6 +30,7 @@ def sendToBot(response_required, text, photos= None):
     @bot.event
     async def on_sendToBot(msg, channel):        
         response = msg
+        await channel.send("Im here")        
         if photos != None:
             for photo in photos:
                 await channel.send(file=discord.File(photo))
