@@ -155,7 +155,7 @@ class Session:
                 captcha = -1
                 captcha_time = time.time()
                 print(f'captcha first check is: {captcha}')
-                captcha = sendToBot(True, 'Please send the number of the correct image (1, 2, 3 or 4)', Photo=photos)
+                captcha = sendToBot(True, 'Please send the number of the correct image (1, 2, 3 or 4)', photos=photos)
                 print(f'captcha second check is: {captcha}')
                 while True:      
                     print(f'captcha in loop check is: {captcha}')              
