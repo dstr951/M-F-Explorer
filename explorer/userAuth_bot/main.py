@@ -2,7 +2,7 @@
 
 import os
 import discord
-
+from io import BytesIO
 from dotenv import load_dotenv
 from discord.ext import commands
 
