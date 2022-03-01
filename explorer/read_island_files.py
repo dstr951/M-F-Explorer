@@ -30,7 +30,7 @@ adapter = HTTPAdapter(max_retries=retry)
 for i in range (1, 5722):
     if i % 1000 == 1:
         print(i)
-    current_file = open(f"{ISLAND_FILES_PATH}island_{i}.txt", 'r', encoding="utf-8") 
+    current_file = open(f"{ISLAND_FILES_PATH}/island_{i}.txt", 'r', encoding="utf-8") 
     current_text = current_file.read()
     postFile(current_text)
 
