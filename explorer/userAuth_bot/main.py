@@ -31,8 +31,8 @@ def sendToBot(response_required, text, photos= None):
     async def on_sendToBot(msg, channel):        
         response = msg
         if photos != None:             
-            await channel.send(file=discord.File(fp=photos[0], filename='text.png'))
-            await channel.send(file=discord.File(fp=photos[1], filename='images.png'))
+            await channel.send(file=discord.File(fp=BytesIO(photos[0]), filename='text.png'))
+            await channel.send(file=discord.File(fp=BytesIO(photos[1]), filename='images.png'))
             
         await channel.send(response) 
         if not response_required:
