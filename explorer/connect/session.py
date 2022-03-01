@@ -122,6 +122,8 @@ class Session:
                 captcha_time = self.s.get('https://image-drop-challenge.gameforge.com/challenge/{}/en-GB'.format(challenge_id)).json()['lastUpdated']
                 text_image = self.s.get('https://image-drop-challenge.gameforge.com/challenge/{}/en-GB/text?{}'.format(challenge_id, captcha_time)).content
                 drag_icons = self.s.get('https://image-drop-challenge.gameforge.com/challenge/{}/en-GB/drag-icons?{}'.format(challenge_id, captcha_time)).content
+                text_image_link = 'https://image-drop-challenge.gameforge.com/challenge/{}/en-GB/text?{}'.format(challenge_id, captcha_time)
+                drag_icons_link = 'https://image-drop-challenge.gameforge.com/challenge/{}/en-GB/drag-icons?{}'.format(challenge_id, captcha_time)
                 drop_target = self.s.get('https://image-drop-challenge.gameforge.com/challenge/{}/en-GB/drop-target?{}'.format(challenge_id, captcha_time)).content
                 data = {}
                 """
@@ -150,7 +152,8 @@ class Session:
                         sys.exit(_('Captcha error! (Interactive)'))
                     """
                 print("will send data to discord bot")
-                photos = [text_image, drag_icons]                    
+                #photos = [text_image, drag_icons]     
+                photos = [text_image_link, drag_icons_link]                
                 
                 captcha = -1
                 captcha_time = time.time()
