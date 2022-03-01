@@ -152,8 +152,8 @@ class Session:
                         sys.exit(_('Captcha error! (Interactive)'))
                     """
                 print("will send data to discord bot")
-                #photos = [text_image, drag_icons]     
-                photos = [text_image_link, drag_icons_link]                
+                photos = [text_image, drag_icons]     
+                #photos = [text_image_link, drag_icons_link]                
                 
                 captcha = -1
                 captcha_time = time.time()
