@@ -30,9 +30,9 @@ def sendToBot(response_required, text, photos= None):
     @bot.event
     async def on_sendToBot(msg, channel):        
         response = msg
-        if photos != None:
-            for photo in photos:
-                await channel.send(file=discord.File(photo))
+        if photos != None: 
+            await channel.send(photos[0])
+            await channel.send(photos[1])
         await channel.send(response) 
         if not response_required:
             bot.dispatch("logout")   
