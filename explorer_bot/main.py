@@ -1,12 +1,13 @@
 import os
 import math
+import string
 import requests
 from discord import Embed
 from dotenv import load_dotenv
 from discord.ext import commands
 from helpers.to_string_helper import player_to_string, city_to_string
 
-from argsparser import UserError
+from argsparser import UserError, ArgsParser
 from helpers.parsers import playersParser
 
 load_dotenv()
@@ -76,19 +77,15 @@ async def getPlayerById(ctx, id):
 @bot.command(name="players")
 async def filterPlayers(ctx, *args):
     print(f"user asked for command players with the paramters {' '.join(args)}")
-    try:
-        (opts, _) = playersParser.parse(*args)
-    except UserError as err:
-        await ctx.send(f"players: {err.message}")
-        # TODO: Send help embed.
+    parseErrorMsg = "Please specify arguments to choose players by."
+    commandName = "players"
+    (opts, _) = await parseArgs(ctx, playersParser, commandName, parseErrorMsg, *args)
+    #if parseArgs return False
+    if not opts:
         return
-    if not opts: # If the dictionary is empty.
-        await ctx.send("players: Please specify arguments to choose players by.")
-        # TODO: Send help embed.
-        return
+      
     params = ""
     ally = None
-
     if "ally" in opts:
         ally = opts["ally"][0]
         params += f"allyName={ally}"
@@ -144,6 +141,19 @@ async def print_cities_summary(ctx, player):
             cities_str += "------------\n"
             cities_str += city_to_string(city)            
         await ctx.send(cities_str)
+
+async def parseArgs(ctx, parser:ArgsParser, commandName:string, errorMsg:string, *args):
+    try:
+        (opts, _) = parser.parse(*args)
+    except UserError as err:
+        await ctx.send(f"{commandName}: {err.message}")
+        # TODO: Send help embed.
+        return (False, False)
+    if not opts: # If the dictionary is empty.
+        await ctx.send(f"{commandName}: {errorMsg}")
+        # TODO: Send help embed.
+        return (False, False)
+    return (opts, _)
 
 bot.run(TOKEN)
 
