@@ -37,24 +37,29 @@ async def filterPlayer(ctx, *args):
     except requests.HTTPError as err:
         if err.response.status_code == 404:
             await ctx.send(f"user {name} wasn't found")
+            return
         else:
             await ctx.send(f"name: {name} error: {err}")
-    else:
-        allyId = player.json()['allyId']
-        allyName = ""
-        if allyId != "0": 
-            try:            
-                ally = requests.get(f"http://localhost:9000/ally?id={allyId}")
-                ally.raise_for_status()
-                allyName = ally.json()['allyName']
-            except requests.HTTPError as err:
-                if err.response.status_code == 404:
-                    await ctx.send(f"ally {allyId} wasn't found")
-                else:
-                    await ctx.send(f"id: {allyId} error: {err}")    
-            
-        await ctx.send(player_to_string(player.json(), allyName))
-        await print_cities_summary(ctx, player)           
+            return
+    
+    allyId = player.json()['allyId']
+    allyName = ""
+    if allyId != "0": 
+        try:            
+            ally = requests.get(f"http://localhost:9000/ally?id={allyId}")
+            ally.raise_for_status()
+            allyName = ally.json()['allyName']
+        except requests.HTTPError as err:
+            if err.response.status_code == 404:
+                await ctx.send(f"ally {allyId} wasn't found")                
+            else:
+                await ctx.send(f"id: {allyId} error: {err}")   
+                
+    await ctx.send(player_to_string(player.json(), allyName))
+    minimal = False
+    if "minimal" in opts:
+        minimal = True
+    await print_cities_summary(ctx, player, minimal)           
 @bot.command(name='playerId')
 async def getPlayerById(ctx, id): 
     print(f"user asked for command playerId with the paramter id={id}")
@@ -131,7 +136,7 @@ async def filterPlayers(ctx, *args):
     if fields > 0:
         await ctx.send(embed=embed)
 
-async def print_cities_summary(ctx, player):
+async def print_cities_summary(ctx, player, minimal = False):
     playerId = player.json()['playerId']
     url= f"http://localhost:9000/cities?playerId={playerId}"
     try:
@@ -147,8 +152,9 @@ async def print_cities_summary(ctx, player):
         await ctx.send(f"מספר ערים: {len(cities_list)}")
         cities_str=""
         for city in cities_list:
-            cities_str += "------------\n"
-            cities_str += city_to_string(city)            
+            if not minimal:
+                cities_str += "------------\n"
+            cities_str += city_to_string(city, minimal)            
         await ctx.send(cities_str)
 
 async def parseArgs(ctx, parser:ArgsParser, commandName:string, emptyErrorMsg:string, *args):
