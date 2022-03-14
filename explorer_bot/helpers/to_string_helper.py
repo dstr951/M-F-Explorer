@@ -22,7 +22,7 @@ def player_to_string(playerJSON, allyName):
         allyString = f"ברית: {allyName}"
     return f"שחקן: {name} | מיקום בטבלה: {place} | סטאטוס: {statusHEB} | {allyString}\n בנאים: {buildingScore} | גנרלים: {armyScore} | מחקרים: {researchScore}"
 
-def city_to_string(cityJSON):
+def city_to_string(cityJSON, minimal):
     name = cityJSON['cityName']
     level = cityJSON['level']    
     x = cityJSON['island'][0]['x']
@@ -30,7 +30,8 @@ def city_to_string(cityJSON):
     tradegood = cityJSON['island'][0]['tradegood']
     wonder = cityJSON['island'][0]['wonderName']
     wonder_level = cityJSON['island'][0]['wonderLevel']
-
+    if minimal:
+        return f"{name} | [{x}:{y}]\n"
     return f"{name} | [{x}:{y}]\nעיר רמה {level} | משאב: {resource_to_string(int(tradegood))} | פלא: {wonder} ברמה {wonder_level}\n"
 
 def convert_status_to_HEB(statusENG):
