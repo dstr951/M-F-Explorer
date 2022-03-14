@@ -19,17 +19,14 @@ bot = commands.Bot(command_prefix='~')
 @bot.command(name='player')
 async def filterPlayer(ctx, *args):  
     print(f"user asked for command player with the paramters {' '.join(args)}")
-    emptyErrorMsg = "Please specify arguments to choose players by."
+    emptyErrorMsg = False
     (opts, _) = await parseArgs(ctx, playerParser, "player", emptyErrorMsg, *args)
-
-    params = ""
-    name = None
-    if "name" in opts:
-        name = opts["name"][0]
-        params += f"name={name}"
-
-    print(f"user asked for command playerName with the paramter name={name} I will ask for name={name.lower()}")
+    if len(_) == 0:
+        await ctx.send(f"no username was sepcified")
+    name = _[0]
     name = name.lower()
+    params = f"name={name}"
+    print(f"user asked for command playerName with the paramter name={name} I will ask for name={name.lower()}")
     url= f"http://localhost:9000/player?{params}"
     try:
         player = requests.get(url)
@@ -57,8 +54,9 @@ async def filterPlayer(ctx, *args):
                 
     await ctx.send(player_to_string(player.json(), allyName))
     minimal = False
-    if "minimal" in opts:
-        minimal = True
+    if opts:
+        if "minimal" in opts:
+            minimal = True
     await print_cities_summary(ctx, player, minimal)           
 @bot.command(name='playerId')
 async def getPlayerById(ctx, id): 
@@ -157,17 +155,18 @@ async def print_cities_summary(ctx, player, minimal = False):
             cities_str += city_to_string(city, minimal)            
         await ctx.send(cities_str)
 
-async def parseArgs(ctx, parser:ArgsParser, commandName:string, emptyErrorMsg:string, *args):
+async def parseArgs(ctx, parser:ArgsParser, commandName, emptyErrorMsg, *args):
     try:
         (opts, _) = parser.parse(*args)
     except UserError as err:
         await ctx.send(f"{commandName}: {err.message}")
         # TODO: Send help embed.
         return (False, False)
-    if not opts: # If the dictionary is empty.
-        await ctx.send(f"{commandName}: {emptyErrorMsg}")
-        # TODO: Send help embed.
-        return (False, False)
+    if emptyErrorMsg is string:
+        if not opts: # If the dictionary is empty.
+            await ctx.send(f"{commandName}: {emptyErrorMsg}")
+            # TODO: Send help embed.
+            return (False, False)
     return (opts, _)
 
 bot.run(TOKEN)
