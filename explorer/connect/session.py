@@ -7,17 +7,12 @@ import config
 import random
 import datetime
 import requests
-from dotenv import load_dotenv
 from helpers.aesCipher import *
 from userAuth_bot.main import sendToBot
 from urllib3.exceptions import InsecureRequestWarning
 
-load_dotenv()
-MAIL = os.getenv("MAIL_1")
-PASSWORD = os.getenv("PASSWORD_1")
-
 class Session:
-    def __init__(self):        
+    def __init__(self, mail, password):        
         if config.isWindows:
             self.logfile = os.getenv('temp') + '/ikabot.log'
         else:
@@ -25,14 +20,14 @@ class Session:
         self.log = False
         self.padre = True
         self.logged = False
+        self.mail = mail
+        self.password = password
         # disable ssl verification warning
         requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
         self.__login()
 
     def __login(self, retries=0):        
-        self.__log('__login()')
-        self.mail = MAIL
-        self.password =PASSWORD
+        self.__log(f"__login({self.mail},{self.password})")        
                     
 
         self.s = requests.Session()
@@ -219,7 +214,7 @@ class Session:
         servers = json.loads(r.text, strict=False)
 
         if not self.logged:
-            print("not self logged in server select")
+            print(f"not self logged in server select player {self.mail}")
             if len([account for account in accounts if account['blocked'] is False]) == 1:
                 self.account = [account for account in accounts if account['blocked'] is False][0]
             else:
