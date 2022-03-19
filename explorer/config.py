@@ -31,9 +31,6 @@ isWindows = os.name == 'nt'
 base_url='https://s25-il.ikariam.gameforge.com/'
 island_url = 'view=island&islandId='
 max_island = 5721
-max_sessions = 2
-sleep_min = 1
-sleep_max = 5
 
 #TODO: check if important after it works:
 do_ssl_verify = True
