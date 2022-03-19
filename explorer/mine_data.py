@@ -15,6 +15,8 @@ MAIL1 = os.getenv("MAIL_1")
 PASSWORD1 = os.getenv("PASSWORD_1")
 MAIL2 = os.getenv("MAIL_2")
 PASSWORD2 = os.getenv("PASSWORD_2")
+MAIL3 = os.getenv("MAIL_3")
+PASSWORD3 = os.getenv("PASSWORD_3")
 
 def start():
     home = 'USERPROFILE' if isWindows else 'HOME'
@@ -24,7 +26,11 @@ def start():
         os.chmod(ikaFile, 0o600)
     sessions = []
     sessions.append(Session(MAIL1, PASSWORD1))
+    time.sleep(2)
     sessions.append(Session(MAIL2, PASSWORD2))
+    time.sleep(2)
+    sessions.append(Session(MAIL3, PASSWORD3))
+    max_sessions = len(sessions)
 
     islands_file = open(f"{ISLAND_JSON_PATH}/islands_list.json")
     islands = json.load(islands_file)
@@ -43,7 +49,7 @@ def start():
         target_file.close()
         session_num += 1
         if session_num >= max_sessions: session_num = 0
-        time.sleep(randint(sleep_min,sleep_max))    
+        time.sleep(random.random() + 0.5)    
 
 print(f"start in main, time is: {datetime.datetime.now()}")
 start()
