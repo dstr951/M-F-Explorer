@@ -95,7 +95,8 @@ class Session:
         self.s.headers.update(self.headers)
         data = {"identity": self.mail, "password": self.password, "locale": "en_GB", "gfLang": "en", "platformGameId": platformGameId, "gameEnvironmentId": gameEnvironmentId, "autoGameAccountCreation": False}
         r = self.s.post('https://gameforge.com/api/v1/auth/thin/sessions', json=data)
-        if 'gf-challenge-id' in r.headers:            
+        if 'gf-challenge-id' in r.headers:   
+            rebuild = False         
             while True:
                 self.headers = {'Host': 'gameforge.com', 'User-Agent': config.user_agent, 'Accept': '*/*', 'Accept-Language': 'en-US,en;q=0.5', 'Accept-Encoding': 'gzip, deflate, br', 'Referer': 'https://lobby.ikariam.gameforge.com/es_AR/', 'TNT-Installation-Id': '', 'Content-Type': 'application/json', 'Origin': 'https://lobby.ikariam.gameforge.com', 'DNT': '1', 'Connection': 'keep-alive', 'Pragma': 'no-cache', 'Cache-Control': 'no-cache', 'TE': 'Trailers'}
                 self.s.headers.clear()
@@ -153,7 +154,7 @@ class Session:
                 captcha = -1
                 captcha_time = time.time()
                 print(f'captcha first check is: {captcha}')
-                captcha = sendToBot(True, 'Please send the number of the correct image (1, 2, 3 or 4)', photos=photos)
+                captcha = sendToBot(True, 'Please send the number of the correct image (1, 2, 3 or 4)', photos=photos, rebuild=rebuild)
                 print(f'captcha second check is: {captcha}')
                 while True:      
                     print(f'captcha in loop check is: {captcha}')              
@@ -183,9 +184,11 @@ class Session:
                     self.s.headers.update(self.headers)
                     data = {"identity": self.mail, "password": self.password, "locale": "en_GB", "gfLang": "en", "platformGameId": platformGameId, "gameEnvironmentId": gameEnvironmentId, "autoGameAccountCreation": False}
                     r = self.s.post('https://gameforge.com/api/v1/auth/thin/sessions', json=data)
-                    if 'gf-challenge-id' in r.headers:
-                        self.writeLog("Failed to solve interactive captcha!")
-                        print("Failed to solve interactive captcha, trying again!")
+                    if 'gf-challenge-id' in r.headers:                        
+                        print("Failed to solve interactive captcha, sleeping for 5 seconds...")
+                        time.sleep(5)
+                        print("Trying again!")
+                        rebuild=True
                         continue
                     else:
                         break
