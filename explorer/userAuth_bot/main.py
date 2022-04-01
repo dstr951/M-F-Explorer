@@ -13,8 +13,14 @@ CHANNEL_ID = os.getenv('CHANNEL_ID')
 
 bot = commands.Bot(command_prefix='!')
 channel = None
-def sendToBot(response_required, text, photos= None):    
+def sendToBot(response_required, text, photos= None, rebuild=False):    
     captcha_user = [-1]
+    captcha_command_exists = False
+    for command in bot.commands:
+        if command == "captcha":
+            print("captcha exists in commands")
+            captcha_command_exists = True
+            break
     @bot.event
     async def on_ready():
         guild = discord.utils.get(bot.guilds, name=GUILD)
@@ -25,6 +31,8 @@ def sendToBot(response_required, text, photos= None):
 
         channel = bot.get_channel(int(CHANNEL_ID))    
         print(f'I found the channel:{channel.id}')
+        for command in bot.commands:
+            print(f"command {command}")
         bot.dispatch("sendToBot", text, channel)
 
     @bot.event
@@ -38,18 +46,21 @@ def sendToBot(response_required, text, photos= None):
         if not response_required:
             bot.dispatch("logout")   
 
-    @bot.command(name='captcha')
-    async def captcha(ctx, selected: int):    
-        captcha_user[0] = selected 
-        response = "you entered the captcha succefully"
-        await ctx.send(response)
-        bot.dispatch("logout") 
+    
+
+    if not rebuild:
+        @bot.command(name='captcha')
+        async def captcha(ctx, selected: int):    
+            captcha_user[0] = selected 
+            response = "you entered the captcha succefully"
+            await ctx.send(response)
+            bot.dispatch("logout") 
 
     @bot.event
     async def on_logout():        
         await bot.close()
 
     bot.run(TOKEN)
-    print("after run")
+    print("after run captcha is " + str(captcha_user[0]))
     return captcha_user[0]
 
