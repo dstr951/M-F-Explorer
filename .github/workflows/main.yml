@@ -40,7 +40,7 @@ jobs:
             kill $BOT_PID
             echo 'killed bot process'
             echo $BOT_PID
-            nohup python3 M-F-Explorer/explorer_bot/main.py </dev/null &>discord_bot_log
+            nohup python3 M-F-Explorer/explorer_bot/main.py </dev/null &>/dev/null &
             exit
             
 
