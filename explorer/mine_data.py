@@ -29,7 +29,7 @@ def start():
     time.sleep(2)
     sessions.append(Session(MAIL2, PASSWORD2))
     time.sleep(2)
-    sessions.append(Session(MAIL3, PASSWORD3))
+    #sessions.append(Session(MAIL3, PASSWORD3))
     max_sessions = len(sessions)
 
     islands_file = open(f"{ISLAND_JSON_PATH}/islands_list.json")
