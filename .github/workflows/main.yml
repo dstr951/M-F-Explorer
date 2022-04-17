@@ -36,6 +36,7 @@ jobs:
             cd M-F-Explorer/Explorer_server
             nohup go run main.go </dev/null &>/dev/null &
             cd ../../
+            ./restart_bot.sh
             exit
             
 
