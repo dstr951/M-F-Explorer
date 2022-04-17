@@ -34,9 +34,15 @@ islands = json.load(islands_file)
 session_num = 0
 for island in islands:
     islandId = island['island_id']
-    current_file = open(os.path.join(f"{ISLAND_FILES_PATH}/island_{islandId}.txt"), 'r', encoding="utf-8") 
-    current_text = current_file.read()
-    postFile(current_text)
+    try:
+        current_file = open(os.path.join(f"{ISLAND_FILES_PATH}/island_{islandId}.txt"), 'r', encoding="utf-8") 
+        current_text = current_file.read()
+        postFile(current_text)
+    except FileNotFoundError:
+        print(f"file: {ISLAND_FILES_PATH}/island_{islandId}.txt not found")
+    finally:
+        current_file.close()
+    
 
 
 print(f"finish in read_island_files, time is: {datetime.datetime.now()}")  
