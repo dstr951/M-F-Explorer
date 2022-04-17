@@ -115,7 +115,7 @@ async def filterPlayers(ctx, *args):
     
     sortedPlayers = players.json()["players"]
     #default sort
-    sortedPlayers.sort(key = lambda player: int(player["place"]))
+    sortedPlayers.sort(key = lambda player: int(player["place"] if player["place"] != '' else "0"))
 
     embed = Embed(title=ally)
     part = 1
