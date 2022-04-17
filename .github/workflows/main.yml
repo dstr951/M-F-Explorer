@@ -36,7 +36,11 @@ jobs:
             cd M-F-Explorer/Explorer_server
             nohup go run main.go </dev/null &>/dev/null &
             cd ../../
-            ./restart_bot.sh
+            BOT_PID=$(ps aux | grep explorer_bot/main.py | awk '{print $2}' | head -1)
+            kill $BOT_PID
+            echo 'killed bot process'
+            echo $BOT_PID
+            nohup python3 M-F-Explorer/explorer_bot/main.py </dev/null &>discord_bot_log
             exit
             
 
