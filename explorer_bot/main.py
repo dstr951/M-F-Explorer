@@ -27,7 +27,7 @@ async def filterPlayer(ctx, *args):
     if len(_) == 0:
         await ctx.send(f"no username was sepcified")
     name = _[0]
-    strippedName = name.strip("/")    
+    strippedName = name.strip("|")    
     params = f"name={strippedName}"
     print(f"user asked for command playerName with the paramter name={name} I will ask for name={strippedName}")
     url= f"http://localhost:9000/player?{params}"
