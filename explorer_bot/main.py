@@ -21,12 +21,15 @@ async def filterPlayer(ctx, *args):
     print(f"user asked for command player with the paramters {' '.join(args)}")
     emptyErrorMsg = False
     (opts, _) = await parseArgs(ctx, playerParser, "player", emptyErrorMsg, *args)
+    # exit from the function if opts returned as boolean    
+    if type(opts) == type(True):
+        return
     if len(_) == 0:
         await ctx.send(f"no username was sepcified")
     name = _[0]
-    name = name.lower()
-    params = f"name={name}"
-    print(f"user asked for command playerName with the paramter name={name} I will ask for name={name.lower()}")
+    strippedName = name.strip("|")    
+    params = f"name={strippedName}"
+    print(f"user asked for command playerName with the paramter name={name} I will ask for name={strippedName}")
     url= f"http://localhost:9000/player?{params}"
     try:
         player = requests.get(url)
@@ -146,9 +149,8 @@ async def print_cities_summary(ctx, player, minimal = False):
         else:
             await ctx.send(f"playerId: {playerId} error: {err}")
     else:            
-        cities_list = cities.json()["cities"]
-        await ctx.send(f"מספר ערים: {len(cities_list)}")
-        cities_str=""
+        cities_list = cities.json()["cities"]        
+        cities_str=f"מספר ערים: {len(cities_list)}\n"
         for city in cities_list:
             if not minimal:
                 cities_str += "------------\n"
