@@ -38,11 +38,8 @@ for island in islands:
         current_file = open(os.path.join(f"{ISLAND_FILES_PATH}/island_{islandId}.txt"), 'r', encoding="utf-8") 
         current_text = current_file.read()
         postFile(current_text)
+        current_file.close()
     except FileNotFoundError:
         print(f"file: {ISLAND_FILES_PATH}/island_{islandId}.txt not found")
-    finally:
-        current_file.close()
-    
-
 
 print(f"finish in read_island_files, time is: {datetime.datetime.now()}")  
